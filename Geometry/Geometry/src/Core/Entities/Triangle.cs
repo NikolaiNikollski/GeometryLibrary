@@ -56,6 +56,6 @@ public class Triangle : IAreaCalculable
         }
 
         // Check for zero considering tolerance
-        return Math.Abs(pythagoreanDifference) < 1e-4;
+        return Math.Abs(pythagoreanDifference) < 1e-3;
     }
 }

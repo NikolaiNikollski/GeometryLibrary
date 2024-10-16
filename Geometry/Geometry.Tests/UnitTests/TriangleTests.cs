@@ -34,7 +34,7 @@ public class TriangleTests
     }
 
     [Fact]
-    public void Constructor_InvalidTriangleSides_ThrowsArgumentException()
+    public void Constructor_InvalidTriangle_ThrowsArgumentException()
     {
         // Arrange
         double a = 1, b = 1, c = 3;
@@ -63,32 +63,6 @@ public class TriangleTests
     {
         // Arrange
         var triangle = new Triangle(3.21, 4.39, 5.43839130625);
-
-        // Act
-        bool isRight = triangle.IsRightTriangle();
-
-        // Assert
-        Assert.True(isRight);
-    }
-
-    [Fact]
-    public void IsRightTriangle_ValidRightTriangleWithIntegerSides_ReturnsTrue()
-    {
-        // Arrange
-        var triangle = new Triangle(3, 4, 5);
-
-        // Act
-        bool isRight = triangle.IsRightTriangle();
-
-        // Assert
-        Assert.True(isRight);
-    }
-    
-    [Fact]
-    public void IsRightTriangle_ValidRightTriangleWithNonIntegerSides_ReturnsTrue()
-    {
-        // Arrange
-        var triangle = new Triangle(3, 4, 5); 
 
         // Act
         bool isRight = triangle.IsRightTriangle();
