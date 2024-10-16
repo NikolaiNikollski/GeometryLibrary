@@ -24,7 +24,7 @@ public class TriangleTests
     [InlineData(double.NaN, 3, 4)] 
     [InlineData(3, double.NaN, 4)] 
     [InlineData(3, 4, double.NaN)] 
-    public void CalculateArea_MaximumSides_ThrowsArithmeticException(double a, double b, double c)
+    public void CalculateArea_NaNSides_ThrowsArithmeticException(double a, double b, double c)
     {
         // Arrange
         var triangle = new Triangle(a, b, c);
@@ -55,20 +55,62 @@ public class TriangleTests
         var area = triangle.CalculateArea();
 
         // Assert
-        Assert.Equal(expectedArea, area, 2);
+        Assert.Equal(expectedArea, area);
     }
     
     [Fact]
     public void CalculateArea_ValidTriangleWithNonIntegerSides_ReturnsCorrectArea()
     {
         // Arrange
-        var triangle = new Triangle(3.21, 4.39, 5.43839130625);
+        double a = 3.21, b = 4.32, c = 5.43; 
+        double expectedArea = 6.93;
+        var triangle = new Triangle(a, b, c);
 
         // Act
-        bool isRight = triangle.IsRightTriangle();
+        var area = triangle.CalculateArea();
+
+        // Assert
+        Assert.Equal(expectedArea, area, 2);
+    }
+    
+    [Fact]
+    public void IsRightTriangle_ValidTriangleWithIntegerSides_ReturnsTrue()
+    {
+        // Arrange
+        var triangle = new Triangle(3, 4, 5);
+        var precision = 5;
+
+        // Act
+        bool isRight = triangle.IsRightTriangle(precision);
 
         // Assert
         Assert.True(isRight);
+    }
+    
+    [Fact]
+    public void IsRightTriangle_ValidTriangleWithNonIntegerSides_ReturnsTrue()
+    {
+        // Arrange
+        var triangle = new Triangle(3.21, 4.39, 5.44);
+
+        // Act
+        bool isRight = triangle.IsRightTriangle(1);
+
+        // Assert
+        Assert.True(isRight);
+    }
+    
+    [Fact]
+    public void IsRightTriangle_ValidTriangleWithNonIntegerSidesWithHightPrecision_ReturnsFalse()
+    {
+        // Arrange
+        var triangle = new Triangle(3.21, 4.39, 5.44);
+
+        // Act
+        bool isRight = triangle.IsRightTriangle(3);
+
+        // Assert
+        Assert.False(isRight);
     }
 
     [Fact]
@@ -78,7 +120,7 @@ public class TriangleTests
         var triangle = new Triangle(2, 3, 4);
 
         // Act
-        bool isRight = triangle.IsRightTriangle();
+        bool isRight = triangle.IsRightTriangle(0);
 
         // Assert
         Assert.False(isRight);

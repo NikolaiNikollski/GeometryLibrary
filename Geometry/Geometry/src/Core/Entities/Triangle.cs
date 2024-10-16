@@ -1,11 +1,24 @@
 ﻿namespace Geometry.Core.Entities;
 
+/// <summary>
+/// Represents a triangle and provides methods to calculate its area and check if it is a right triangle.
+/// </summary>
 public class Triangle : IAreaCalculable
 {
     public double SideA { get; }
     public double SideB { get; }
     public double SideC { get; }
 
+    
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Triangle"/> class.
+    /// </summary>
+    /// <param name="a">The length of side A.</param>
+    /// <param name="b">The length of side B.</param>
+    /// <param name="c">The length of side C.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown when any side length is less than or equal to zero, or when the provided sides do not form a valid triangle.
+    /// </exception>
     public Triangle(double a, double b, double c)
     {
         if (a <= 0 || b <= 0 || c <= 0)
@@ -23,6 +36,13 @@ public class Triangle : IAreaCalculable
         SideC = c;
     }
 
+    /// <summary>
+    /// Calculates the area of the triangle.
+    /// </summary>
+    /// <returns>The area of the triangle.</returns>
+    /// <exception cref="ArithmeticException">
+    /// Thrown when the area calculation results in an invalid number (NaN or Infinity).
+    /// </exception>
     public double CalculateArea()
     {
         double semiPerimeter = (SideA + SideB + SideC) / 2;
@@ -42,20 +62,40 @@ public class Triangle : IAreaCalculable
         return area;
     }
 
-    public bool IsRightTriangle()
+    /// <summary>
+    /// Checks if the triangle is a right triangle by comparing the squares of its sides.
+    /// </summary>
+    /// <param name="decimalPlaces">The number of decimal places to use for comparison.</param>
+    /// <returns>
+    /// <c>true</c> if the triangle is a right triangle; otherwise, <c>false</c>.
+    /// </returns>
+    /// <exception cref="ArgumentException">
+    /// Thrown when the decimal places parameter is a negative integer.
+    /// </exception>
+    /// <exception cref="ArithmeticException">
+    /// Thrown when the Pythagorean difference calculation results in an invalid number (NaN or Infinity).
+    /// </exception>
+    public bool IsRightTriangle(int decimalPlaces)
     {
         var sortedSides = new[] { SideA, SideB, SideC }.OrderBy(side => side).ToArray();
 
-        var pythagoreanDifference =
-            Math.Pow(sortedSides[0], 2) + Math.Pow(sortedSides[1], 2) - Math.Pow(sortedSides[2], 2);
-
+        var sumOfSquaredCatheti = Math.Pow(sortedSides[0], 2) + Math.Pow(sortedSides[1], 2);
+        var squaredHypotenuse = Math.Pow(sortedSides[2], 2);
+        
         //Is it excessive?
-        if (double.IsNaN(pythagoreanDifference) || double.IsInfinity(pythagoreanDifference))
+        if (double.IsNaN(sumOfSquaredCatheti) || double.IsInfinity(sumOfSquaredCatheti))
         {
-            throw new ArithmeticException("Error pythagorean difference: the result is not a valid number.");
+            throw new ArithmeticException("Sum of squared Catheti is not a valid number.");
+        }
+        
+        if (double.IsNaN(squaredHypotenuse) || double.IsInfinity(squaredHypotenuse))
+        {
+            throw new ArithmeticException("Squared hypotenuse is not a valid number.");
         }
 
-        // Check for zero considering tolerance
-        return Math.Abs(pythagoreanDifference) < 1e-3;
+        double tolerance = Math.Pow(10, -decimalPlaces);
+
+        // Check for zero considering user-defined tolerance
+        return Math.Abs(sumOfSquaredCatheti - squaredHypotenuse) < tolerance;
     }
 }
