@@ -46,11 +46,8 @@ public class Triangle : IAreaCalculable
     {
         var sortedSides = new[] { SideA, SideB, SideC }.OrderBy(side => side).ToArray();
 
-        var pythagoreanDifference = Math.Abs(
-            Math.Pow(sortedSides[0], 2) +
-            Math.Pow(sortedSides[1], 2) -
-            Math.Pow(sortedSides[2], 2)
-        );
+        var pythagoreanDifference =
+            Math.Pow(sortedSides[0], 2) + Math.Pow(sortedSides[1], 2) - Math.Pow(sortedSides[2], 2);
 
         //Is it excessive?
         if (double.IsNaN(pythagoreanDifference) || double.IsInfinity(pythagoreanDifference))
@@ -58,7 +55,7 @@ public class Triangle : IAreaCalculable
             throw new ArithmeticException("Error pythagorean difference: the result is not a valid number.");
         }
 
-        // Check for zero considering computational precision
-        return pythagoreanDifference < 1e-10;
+        // Check for zero considering tolerance
+        return Math.Abs(pythagoreanDifference) < 1e-4;
     }
 }
