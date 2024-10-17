@@ -17,7 +17,7 @@ public class Triangle : IAreaCalculable
     /// <param name="b">The length of side B.</param>
     /// <param name="c">The length of side C.</param>
     /// <exception cref="ArgumentException">
-    /// Thrown when any side length is less than or equal to zero, or when the provided sides do not form a valid triangle.
+    /// Thrown when any side length is zero, negative, NaN, or when the provided sides do not form a valid triangle.
     /// </exception>
     public Triangle(double a, double b, double c)
     {
