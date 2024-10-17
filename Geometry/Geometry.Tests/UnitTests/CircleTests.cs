@@ -25,6 +25,16 @@ public class CircleTests
     }
     
     [Fact]
+    public void Constructor_NaNRadius_ThrowsArgumentException()
+    {
+        // Arrange
+        double zeroRadius = double.NaN;
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => new Circle(zeroRadius));
+    }
+    
+    [Fact]
     public void CalculateArea_MaximumRadius_ThrowsArithmeticException()
     {
         // Arrange
@@ -34,16 +44,6 @@ public class CircleTests
         Assert.Throws<ArithmeticException>(() => circle.CalculateArea());
     }
     
-    [Fact]
-    public void CalculateArea_NaNRadius_ThrowsArithmeticException()
-    {
-        // Arrange
-        var circle = new Circle(double.NaN);
-        
-        // Act & Assert
-        Assert.Throws<ArithmeticException>(() => circle.CalculateArea());
-    }
-
     [Fact]
     public void CalculateArea_PositiveIntegerRadius_ReturnsCorrectArea()
     {

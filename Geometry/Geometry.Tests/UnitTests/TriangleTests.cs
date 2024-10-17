@@ -14,25 +14,15 @@ public class TriangleTests
     [InlineData(double.MaxValue, 3, 4)] 
     [InlineData(3, double.MaxValue, 4)] 
     [InlineData(3, 4, double.MaxValue)] 
+    [InlineData(double.NaN, 3, 4)] 
+    [InlineData(3, double.NaN, 4)] 
+    [InlineData(3, 4, double.NaN)] 
     public void Constructor_InvalidSides_ThrowsArgumentException(double a, double b, double c)
     {
         // Act & Assert
         Assert.Throws<ArgumentException>(() => new Triangle(a, b, c));
     }
     
-    [Theory]
-    [InlineData(double.NaN, 3, 4)] 
-    [InlineData(3, double.NaN, 4)] 
-    [InlineData(3, 4, double.NaN)] 
-    public void CalculateArea_NaNSides_ThrowsArithmeticException(double a, double b, double c)
-    {
-        // Arrange
-        var triangle = new Triangle(a, b, c);
-
-        // Act & Assert
-        Assert.Throws<ArithmeticException>(() => triangle.CalculateArea());
-    }
-
     [Fact]
     public void Constructor_InvalidTriangle_ThrowsArgumentException()
     {
@@ -78,7 +68,7 @@ public class TriangleTests
     {
         // Arrange
         var triangle = new Triangle(3, 4, 5);
-        var precision = 5;
+        var precision = 10;
 
         // Act
         bool isRight = triangle.IsRightTriangle(precision);

@@ -31,6 +31,11 @@ public class Triangle : IAreaCalculable
             throw new ArgumentException("Sides do not form a valid triangle.");
         }
 
+        if (double.IsNaN(a) || double.IsNaN(b) || double.IsNaN(c))
+        {
+            throw new ArgumentException("Triangle sides must not be NaN.");
+        }
+
         SideA = a;
         SideB = b;
         SideC = c;
@@ -63,9 +68,13 @@ public class Triangle : IAreaCalculable
     }
 
     /// <summary>
-    /// Checks if the triangle is a right triangle by comparing the squares of its sides.
+    /// Determines if the triangle is a right triangle by comparing the sum of the squares of the two shorter sides
+    /// (catheti) to the square of the longest side (hypotenuse), using the Pythagorean theorem.
     /// </summary>
-    /// <param name="decimalPlaces">The number of decimal places to use for comparison.</param>
+    /// <param name="decimalPlaces">
+    /// The number of decimal places to use when comparing the difference between the sum of the squared catheti
+    /// and the squared hypotenuse. Higher values increase the precision of the comparison.
+    /// </param>
     /// <returns>
     /// <c>true</c> if the triangle is a right triangle; otherwise, <c>false</c>.
     /// </returns>
@@ -73,7 +82,7 @@ public class Triangle : IAreaCalculable
     /// Thrown when the decimal places parameter is a negative integer.
     /// </exception>
     /// <exception cref="ArithmeticException">
-    /// Thrown when the Pythagorean difference calculation results in an invalid number (NaN or Infinity).
+    /// Thrown if the calculated sum of the squared catheti or the squared hypotenuse is an infinite value.
     /// </exception>
     public bool IsRightTriangle(int decimalPlaces)
     {
@@ -82,13 +91,12 @@ public class Triangle : IAreaCalculable
         var sumOfSquaredCatheti = Math.Pow(sortedSides[0], 2) + Math.Pow(sortedSides[1], 2);
         var squaredHypotenuse = Math.Pow(sortedSides[2], 2);
         
-        //Is it excessive?
-        if (double.IsNaN(sumOfSquaredCatheti) || double.IsInfinity(sumOfSquaredCatheti))
+        if (double.IsInfinity(sumOfSquaredCatheti))
         {
-            throw new ArithmeticException("Sum of squared Catheti is not a valid number.");
+            throw new ArithmeticException("Sum of squared catheti is not a valid number.");
         }
         
-        if (double.IsNaN(squaredHypotenuse) || double.IsInfinity(squaredHypotenuse))
+        if (double.IsInfinity(squaredHypotenuse))
         {
             throw new ArithmeticException("Squared hypotenuse is not a valid number.");
         }
