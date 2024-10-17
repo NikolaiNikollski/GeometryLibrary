@@ -46,7 +46,7 @@ public class Triangle : IAreaCalculable
     /// </summary>
     /// <returns>The area of the triangle.</returns>
     /// <exception cref="ArithmeticException">
-    /// Thrown when the area calculation results in an invalid number (NaN or Infinity).
+    /// Thrown when the area calculation results is infinity.
     /// </exception>
     public double CalculateArea()
     {
