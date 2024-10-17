@@ -57,9 +57,8 @@ public class Triangle : IAreaCalculable
             (semiPerimeter - SideB) *
             (semiPerimeter - SideC)
         );
-
-        //Is it excessive?
-        if (double.IsNaN(area) || double.IsInfinity(area))
+        
+        if (double.IsInfinity(area))
         {
             throw new ArithmeticException("Error calculating area: the result is not a valid number.");
         }
